@@ -1,6 +1,7 @@
 package com.notayan.wallwidgy.ui.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,6 +23,8 @@ import androidx.compose.ui.platform.LocalContext
 import com.notayan.wallwidgy.data.Wallpaper
 import com.notayan.wallwidgy.data.cacheUrl
 import com.notayan.wallwidgy.network.WallpaperApi
+import com.notayan.wallwidgy.ui.theme.GlassCard
+import com.notayan.wallwidgy.ui.theme.rememberGlassStyle
 
 @Composable
 fun WallpaperCard(
@@ -33,13 +36,15 @@ fun WallpaperCard(
 ) {
     // Dynamic aspect ratio: 1.77 for Desktop (16:9), 0.7 for Mobile (~9:13)
     val aspectRatio = if (wallpaper.orientation.equals("Desktop", ignoreCase = true)) 1.77f else 0.7f
+    val glassStyle = rememberGlassStyle()
+    val cardShape = RoundedCornerShape(24.dp)
     
     Card(
         modifier = modifier
             .fillMaxWidth()
             .aspectRatio(aspectRatio)
             .clickable { onClick() },
-        shape = RoundedCornerShape(24.dp),
+        shape = cardShape,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
@@ -65,18 +70,24 @@ fun WallpaperCard(
                 }
             }
             
-            // Simplified Favorite Button (Bottom Right)
-            Surface(
+            // Glass rim catching the light along the photo edge
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+                    .border(1.dp, glassStyle.border, cardShape)
+            )
+
+            // Simplified Favorite Button (Bottom Right) - liquid glass
+            GlassCard(
                 onClick = { onToggleFavorite() },
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(12.dp)
                     .size(36.dp),
                 shape = CircleShape,
-                color = Color.Black.copy(alpha = 0.4f),
-                contentColor = Color.White
+                tint = Color.Black.copy(alpha = 0.22f)
             ) {
-                Box(contentAlignment = Alignment.Center) {
+                Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
                     Icon(
                         imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                         contentDescription = "Favorite",

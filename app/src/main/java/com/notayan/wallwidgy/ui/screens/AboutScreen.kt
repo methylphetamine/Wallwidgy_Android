@@ -81,7 +81,6 @@ fun AboutScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(if (isSystemDark) Color(0xFF0A0A0A) else Color(0xFFFAF9F6))
     ) {
         // 1. Subtle top gradient glow (dynamic Monet primary color)
         Box(

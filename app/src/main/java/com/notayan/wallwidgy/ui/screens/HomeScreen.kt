@@ -30,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.notayan.wallwidgy.data.Wallpaper
+import com.notayan.wallwidgy.ui.theme.GlassCard
 import com.notayan.wallwidgy.ui.components.CategoryBar
 import com.notayan.wallwidgy.ui.components.WallpaperCard
 import com.notayan.wallwidgy.ui.components.WallpaperGridSkeleton
@@ -109,7 +110,7 @@ fun HomeScreen(
     val bgColor = if (isSystemDark) Color(0xFF0A0A0A) else Color(0xFFFAF9F6)
 
     Scaffold(
-        containerColor = bgColor,
+        containerColor = Color.Transparent,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
             Column(
@@ -127,7 +128,7 @@ fun HomeScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     // Orientation Switcher (Left) - styled as a beautiful round-corner pill
-                    Surface(
+                    GlassCard(
                         onClick = { 
                             val next = when(selectedOrientation) {
                                 null -> "Mobile"
@@ -140,12 +141,11 @@ fun HomeScreen(
                             .align(Alignment.CenterStart)
                             .height(40.dp),
                         shape = RoundedCornerShape(20.dp),
-                        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.15f))
+                        contentPadding = PaddingValues(horizontal = 14.dp)
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.padding(horizontal = 14.dp)
+                            modifier = Modifier.fillMaxHeight()
                         ) {
                             Icon(
                                 imageVector = when(selectedOrientation) {
@@ -177,7 +177,7 @@ fun HomeScreen(
                     )
 
                     // Search Toggle (Right) - styled as a glass circle
-                    Surface(
+                    GlassCard(
                         onClick = { 
                             showSearch = !showSearch
                             if (!showSearch) {
@@ -187,11 +187,9 @@ fun HomeScreen(
                         modifier = Modifier
                             .align(Alignment.CenterEnd)
                             .size(40.dp),
-                        shape = CircleShape,
-                        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
-                        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.15f))
+                        shape = CircleShape
                     ) {
-                        Box(contentAlignment = Alignment.Center) {
+                        Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
                             Icon(
                                 if (showSearch) Icons.Default.Close else Icons.Default.Search, 
                                 contentDescription = "Search",
@@ -207,13 +205,17 @@ fun HomeScreen(
                     enter = fadeIn(animationSpec = tween(300)) + slideInVertically(animationSpec = tween(300)),
                     exit = fadeOut(animationSpec = tween(300)) + slideOutVertically(animationSpec = tween(300))
                 ) {
-                    TextField(
-                        value = searchQuery,
-                        onValueChange = { viewModel.setSearchQuery(it) },
+                    GlassCard(
+                        shape = RoundedCornerShape(24.dp),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp, vertical = 8.dp)
-                            .height(48.dp),
+                            .height(48.dp)
+                    ) {
+                    TextField(
+                        value = searchQuery,
+                        onValueChange = { viewModel.setSearchQuery(it) },
+                        modifier = Modifier.fillMaxSize(),
                         placeholder = { 
                             Text(
                                 "Search wallpapers...",
@@ -225,13 +227,14 @@ fun HomeScreen(
                         textStyle = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Light),
                         shape = RoundedCornerShape(24.dp),
                         colors = TextFieldDefaults.colors(
-                            focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
-                            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.2f),
+                            focusedContainerColor = Color.Transparent,
+                            unfocusedContainerColor = Color.Transparent,
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent,
                         ),
                         singleLine = true
                     )
+                    }
                 }
 
                 // Filter Chips

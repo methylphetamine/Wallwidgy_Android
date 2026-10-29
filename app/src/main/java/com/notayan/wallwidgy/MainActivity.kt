@@ -15,6 +15,10 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.Box
+import com.notayan.wallwidgy.ui.theme.GlassCard
+import com.notayan.wallwidgy.ui.theme.LiquidBackground
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -70,6 +74,8 @@ class MainActivity : ComponentActivity() {
                 monetEnabled = monetEnabled,
                 customAccentColor = customAccentColor
             ) {
+                Box(modifier = Modifier.fillMaxSize()) {
+                LiquidBackground()
                 val navController = rememberNavController()
                 val viewModel: WallpaperViewModel = viewModel(factory = factory)
 
@@ -93,18 +99,25 @@ class MainActivity : ComponentActivity() {
 
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
-                    containerColor = bgColor,
+                    containerColor = Color.Transparent,
                     contentWindowInsets = WindowInsets(0, 0, 0, 0),
                     bottomBar = {
                         if (currentRoute != "detail/{fileName}") {
-                            NavigationBar(
-                                containerColor = bgColor,
-                                tonalElevation = 0.dp,
-                                windowInsets = WindowInsets(0, 0, 0, 0),
+                            Box(
                                 modifier = Modifier
-                                    .height(56.dp + WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding())
+                                    .fillMaxWidth()
                                     .windowInsetsPadding(WindowInsets.navigationBars)
+                                    .padding(horizontal = 16.dp, vertical = 8.dp)
                             ) {
+                                GlassCard(shape = RoundedCornerShape(28.dp)) {
+                                    NavigationBar(
+                                        containerColor = Color.Transparent,
+                                        tonalElevation = 0.dp,
+                                        windowInsets = WindowInsets(0, 0, 0, 0),
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(64.dp)
+                                    ) {
                                 NavigationBarItem(
                                     selected = currentRoute == "home" || currentRoute == null,
                                     onClick = { 
@@ -170,6 +183,8 @@ class MainActivity : ComponentActivity() {
                                         ) 
                                     }
                                 )
+                                    }
+                                }
                             }
                         }
                     }
@@ -284,6 +299,7 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     }
+                }
                 }
             }
         }

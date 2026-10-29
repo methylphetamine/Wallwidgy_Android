@@ -319,7 +319,7 @@ fun WallpaperDetailScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(if (isSystemDark) Color(0xFF0A0A0A) else Color(0xFFFAF9F6))
+            .background(Color.Transparent)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null
@@ -1002,7 +1002,7 @@ fun WallpaperDetailScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(if (isSystemDark) Color(0xFF0A0A0A) else Color(0xFFFAF9F6))
+                        .background(Color.Transparent)
                         .clickable(
                             interactionSource = remember { MutableInteractionSource() },
                             indication = null
