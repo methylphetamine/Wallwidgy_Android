@@ -5,6 +5,10 @@ on:
     branches: [ "master", "main" ]
   pull_request:
     branches: [ "master", "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -32,3 +36,19 @@ jobs:
       with:
         name: wallwidgy-debug-apk
         path: app/build/outputs/apk/debug/app-debug.apk
+
+    # Publish every successful build as a GitHub Release so the APK is always
+    # downloadable without digging through workflow artifacts.
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: build-${{ github.run_number }}
+        name: Wallwidgy build ${{ github.run_number }}
+        body: |
+          Automated build of `${{ github.sha }}` from `${{ github.ref_name }}`.
+
+          Commit: ${{ github.event.head_commit.message }}
+        files: app/build/outputs/apk/debug/app-debug.apk
+        generate_release_notes: false
+        prerelease: false
+        make_latest: true
