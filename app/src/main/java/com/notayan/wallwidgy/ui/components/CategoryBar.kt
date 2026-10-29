@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.notayan.wallwidgy.ui.theme.GlassCard
 
 val CATEGORY_ICONS = mapOf(
     "nature" to Icons.Default.Landscape,
@@ -46,18 +47,17 @@ fun CategoryBar(
     ) {
         item {
             val isAllSelected = selectedCategories.isEmpty()
-            Surface(
+            GlassCard(
                 onClick = onClearAll,
                 shape = RoundedCornerShape(20.dp),
-                color = if (isAllSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant,
-                contentColor = if (isAllSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant,
-                border = if (isAllSelected) null else androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
+                tint = if (isAllSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.38f) else Color.Transparent,
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
             ) {
                 Text(
                     "All",
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                     style = MaterialTheme.typography.labelLarge,
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.Medium,
+                    color = if (isAllSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
@@ -67,15 +67,13 @@ fun CategoryBar(
             val isSelected = selectedCategories.any { it.removePrefix("#").trim().lowercase() == id }
             val icon = CATEGORY_ICONS[id] ?: Icons.AutoMirrored.Filled.Label
             
-            Surface(
+            GlassCard(
                 onClick = { onCategoryToggled(id) },
                 shape = RoundedCornerShape(20.dp),
-                color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant,
-                contentColor = if (isSelected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurfaceVariant,
-                border = if (isSelected) null else androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f))
+                tint = if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.38f) else Color.Transparent,
+                contentPadding = PaddingValues(horizontal = 14.dp, vertical = 8.dp)
             ) {
                 Row(
-                    modifier = Modifier.padding(horizontal = 14.dp, vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(

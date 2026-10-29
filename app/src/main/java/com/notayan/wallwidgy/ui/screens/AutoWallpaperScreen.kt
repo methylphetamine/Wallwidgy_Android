@@ -196,7 +196,7 @@ fun AutoWallpaperScreen(
     val secTextColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
 
     Scaffold(
-        containerColor = bgColor,
+        containerColor = Color.Transparent,
         topBar = {
             Column(
                 modifier = Modifier

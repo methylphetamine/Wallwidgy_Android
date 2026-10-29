@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.notayan.wallwidgy.data.Wallpaper
 import com.notayan.wallwidgy.ui.components.WallpaperCard
+import com.notayan.wallwidgy.ui.theme.GlassCard
 import com.notayan.wallwidgy.ui.viewmodel.WallpaperViewModel
 
 @Composable
@@ -27,7 +28,7 @@ fun FavoritesScreen(
     val bgColor = if (isSystemDark) Color(0xFF0A0A0A) else Color(0xFFFAF9F6)
 
     Scaffold(
-        containerColor = bgColor,
+        containerColor = Color.Transparent,
         contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
             // Header for Favorites
@@ -38,11 +39,15 @@ fun FavoritesScreen(
                     .padding(16.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = "Favorites",
-                    style = MaterialTheme.typography.headlineSmall,
-                    fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
-                )
+                GlassCard(
+                    contentPadding = PaddingValues(horizontal = 22.dp, vertical = 8.dp)
+                ) {
+                    Text(
+                        text = "Favorites",
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold
+                    )
+                }
             }
         }
     ) { innerPadding ->
@@ -53,7 +58,11 @@ fun FavoritesScreen(
                     .padding(innerPadding),
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = "No favorites yet", style = MaterialTheme.typography.titleMedium)
+                GlassCard(
+                    contentPadding = PaddingValues(horizontal = 28.dp, vertical = 20.dp)
+                ) {
+                    Text(text = "No favorites yet", style = MaterialTheme.typography.titleMedium)
+                }
             }
         } else {
             LazyVerticalStaggeredGrid(
